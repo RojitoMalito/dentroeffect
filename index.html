@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400&display=swap');
+        html {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fef6f6;
+            color: #333;
+            line-height: 1.7;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .letter-container {
+            max-width: 700px;
+            margin: 2.5rem auto;
+            padding: 2.5rem 1.5rem 2.5rem 1.5rem;
+            background-color: #fff;
+            box-shadow: 0 6px 32px rgba(0,0,0,0.10);
+            border-radius: 18px;
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+        .letter-container:hover {
+            box-shadow: 0 12px 40px rgba(183,110,121,0.13);
+        }
+        .seal {
+            position: absolute;
+            top: -32px;
+            right: 32px;
+            width: 64px;
+            height: 64px;
+            background-color: #e8c4c4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Dancing Script', cursive;
+            font-weight: bold;
+            color: #fff;
+            font-size: 1.4rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+            letter-spacing: 1px;
+            border: 3px solid #fff;
+        }
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #b76e79;
+            text-align: center;
+            margin-bottom: 2.2rem;
+            font-size: 5.5rem;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px #f8e8e8;
+        }
+        p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+            font-size: 1.08rem;
+        }
+        .hidden-message {
+            margin: 2.2rem 0;
+            padding: 1.1rem 1.2rem 1.1rem 2.2rem;
+            background-color: #f8e8e8;
+            border-left: 5px solid #b76e79;
+            position: relative;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 2px 8px rgba(183,110,121,0.04);
+        }
+        .hidden-message::before {
+            content: "✉";
+            position: absolute;
+            left: -18px;
+            top: -18px;
+            background-color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b76e79;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            font-size: 1.3rem;
+        }
+        .reveal-btn {
+            background: linear-gradient(90deg, #e8c4c4 60%, #b76e79 100%);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 24px;
+            cursor: pointer;
+            margin: 1.2rem auto 1.5rem auto;
+            display: block;
+            font-size: 1.08rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(183,110,121,0.10);
+            transition: background 0.3s, transform 0.2s;
+        }
+        .reveal-btn:hover {
+            background: linear-gradient(90deg, #b76e79 60%, #e8c4c4 100%);
+            transform: translateY(-2px) scale(1.04);
+        }
+        .hidden-content {
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .date {
+            text-align: right;
+            font-style: italic;
+            color: #888;
+            margin-top: 2.2rem;
+            font-size: 0.98rem;
+        }
+        footer {
+            text-align: center;
+            margin-top: 3.2rem;
+            font-size: 0.88rem;
+            color: #aaa;
+            letter-spacing: 0.5px;
+        }
+        .polaroid {
+            margin: 2.2rem auto 2.5rem auto;
+            width: 95%;
+            max-width: 340px;
+            padding: 18px 18px 44px 18px;
+            background-color: white;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.13);
+            transform: rotate(1.5deg);
+            border-radius: 12px;
+            transition: box-shadow 0.3s, transform 0.2s;
+        }
+        .polaroid:hover {
+            box-shadow: 0 12px 32px rgba(183,110,121,0.13);
+            transform: rotate(-1deg) scale(1.03);
+        }
+        .polaroid img {
+            width: 100%;
+            height: auto;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .polaroid-caption {
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            margin-top: 12px;
+            color: #666;
+            font-size: 1.1rem;
+        }
+        .fade-in-section {
+            opacity: 0;
+            transition: opacity 1.5s cubic-bezier(.4,0,.2,1);
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+        }
+        @media (max-width: 600px) {
+            .letter-container {
+                padding: 1.2rem 0.5rem 1.5rem 0.5rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .polaroid {
+                max-width: 98vw;
+                padding: 10px 5px 24px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="letter-container">
+        <div class="seal">Para Ti</div>
+        <h1>Mensaje Escondido en el Tiempo</h1>
+        
+        <div class="polaroid fade-in-section">
+            <img src="image/tu-imagen.jpg" alt="Tu imagen especial" />
+            <div class="polaroid-caption">Nuestro momento favorito</div>
+        </div>
+        
+        <p>Mi amor,</p>
+        
+        <p>Si estás leyendo esto, significa que el universo finalmente quiso que encontraras este mensaje que dejé escondido para ti con tanto cuidado. No sé cuánto tiempo ha pasado desde que lo escondí - días, meses, tal vez años - pero cada segundo que pasó fue un segundo más en el que este mensaje esperaba silenciosamente su momento para llegar a ti.</p>
+        
+        <div class="hidden-message fade-in-section">
+            <p>Quizás lo encontraste buscando algo completamente diferente, o tal vez seguiste pistas que dejé sin que te dieras cuenta. De cualquier manera, aquí estamos, tu y este mensaje, reunidos al fin.</p>
+        </div>
+        
+        <p>Tengo tantas cosas que decirte que no cabrían en cien cartas como esta, pero hoy quiero recordarte lo especial que eres para mí. Eres esa persona que hizo que todo cobrara sentido, que convirtió los días ordinarios en aventuras y las noches simples en recuerdos imborrables.</p>
+        
+        <button class="reveal-btn" onclick="revealSecret()">Descubre un secreto</button>
+        
+        <div id="secret" class="hidden-content">
+            <p>Te confieso que mientras escribo estas palabras, estoy imaginando el momento en que las leerás. ¿Cómo será ese día? ¿Qué estarás sintiendo? Espero que sea un día especial, o quizás un día normal que esta carta convierta en especial.</p>
+            
+            <p>Lo más importante que quiero que recuerdes es esto: sin importar cuánto tiempo haya pasado desde que escribí esto, cada día que pasa mi amor por ti sigue creciendo, igual que ese primer día que supe que eras diferente a todas las demás.</p>
+        </div>
+        
+        <div class="fade-in-section">
+            <p>Esta carta es como el amor que te tengo - escondido en cada rincón de mi vida, esperando ser descubierto una y otra vez, cada día de una forma diferente. Y así como encontraste esta carta cuando menos lo esperabas, espero que sigas encontrando razones para sonreír cuando pienses en nosotros.</p>
+            <p>Siempre tuyo, Josue V.P</p>
+        </div>
+        
+        <div class="date fade-in-section" id="currentDate"></div>
+        
+        <footer class="fade-in-section">
+            Este mensaje fue escondido con amor para que lo encuentres exactamente cuando lo necesites.
+        </footer>
+    </div>
+
+    <script>
+        // Set current date
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('es-ES', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        
+        // Reveal secret message
+        function revealSecret() {
+            document.getElementById('secret').style.display = 'block';
+            document.querySelector('.reveal-btn').style.display = 'none';
+        }
+        
+        // Fade in animation
+        const fadeElements = document.querySelectorAll('.fade-in-section');
+        
+        const fadeInOnScroll = function() {
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementBottom = element.getBoundingClientRect().bottom;
+                
+                if(elementTop < window.innerHeight && elementBottom > 0) {
+                    element.classList.add('is-visible');
+                }
+            });
+        }
+        
+        window.addEventListener('DOMContentLoaded', fadeInOnScroll);
+        window.addEventListener('scroll', fadeInOnScroll);
+        window.addEventListener('resize', fadeInOnScroll);
+        
+        // Initial check
+        fadeInOnScroll();
+    </script>
+</body>
+</html>
+
